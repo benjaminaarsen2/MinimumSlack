@@ -14,14 +14,14 @@ public:
 	virtual ~Task();
 
 	unsigned char getMachine() const;
-	unsigned char getTime() const;
+	unsigned char getDuration() const;
 	unsigned char getEarliestStart() const;
 
 	unsigned char setEarliestStart(unsigned char es);
 
 private:
 	unsigned char machine;
-	unsigned char time;
+	unsigned char duration;
 	unsigned char earliestStart;
 };
 

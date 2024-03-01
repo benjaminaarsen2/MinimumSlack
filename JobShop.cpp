@@ -24,6 +24,10 @@ Job& JobShop::addJob(const Job &job) {
 	return this->jobs.back();
 }
 
+std::vector<Job>& JobShop::getJobs() {
+	return this->jobs;
+}
+
 std::ostream& operator<<(std::ostream &os, const JobShop &rhs) {
 	os << "Jobs: " << (int) rhs.nJobs << " Machines: " << (int) rhs.nMachines
 			<< std::endl;

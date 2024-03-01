@@ -29,7 +29,7 @@ JobShop Parser::parse() {
 		std::string line;
 		getline(File, line);
 		std::vector<unsigned char> tokens = parseDigitsInLine(line);
-
+		std::cout << tokens.size() << std::endl;
 		if (tokens.size() != 2) {
 			throw(std::runtime_error(
 					"Config invalid, only two digits are allowed."));
@@ -62,9 +62,10 @@ std::vector<unsigned char> Parser::parseDigitsInLine(const std::string &line) {
 	std::string tok;
 	std::size_t start, end;
 	start = end = 0;
-
-	while ((start = line.find_first_not_of(' ', end)) != std::string::npos) {
-		end = line.find(' ', start);
+	const char ws[] = {' ', '\t'};
+	while ((start = line.find_first_not_of(ws, end)) != std::string::npos) {
+		end = line.find_first_of(ws, start);
+//		std::cout << "start: " << start << " end: " << end << std::endl;
 
 		if (end == std::string::npos) {
 			end = line.length();

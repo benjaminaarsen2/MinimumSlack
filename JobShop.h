@@ -18,7 +18,7 @@ public:
 	virtual ~JobShop();
 
 	Job& addJob(const Job& job);
-
+	std::vector<Job>& getJobs();
 	std::string name;
 	unsigned char nJobs;
 	unsigned char nMachines;
