@@ -1,0 +1,141 @@
+<?xml version='1.0' encoding='utf-8' ?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+	</head>
+	<body>
+		<h1 id="assignment-example">Assignment example</h1>
+		<h3 id="eerste-lijn">Eerste lijn</h3>
+		<p>
+			<strong>2 3</strong> betekent 
+		</p>
+		<ul>
+			<li>2 jobs </li>
+			<li>3 machines</li>
+		</ul>
+		<h3 id="eerste-job">Eerste job</h3>
+		<p>
+			<strong>0 30 1 30 2 10</strong>
+		</p>
+		<p>
+			<strong>Machine 0, 1 en 2, daarop volgt de taakduur</strong>
+		</p>
+		<p>Dus: </p>
+		<p>
+			<strong>Job 1</strong>
+		</p>
+		<ul>
+			<li>Taak 1: </li>
+			<ul>
+				<li>Machine 0</li>
+				<li>Tijdsduur 30</li>
+			</ul>
+			<li>Taak 2: </li>
+			<ul>
+				<li>Machine 1</li>
+				<li>Tijdsduur 30</li>
+			</ul>
+			<li>Taak 3: </li>
+			<ul>
+				<li>Machine 2</li>
+				<li>Tijdsduur 10</li>
+			</ul>
+		</ul>
+		<p>
+			<strong>Job 2</strong>
+		</p>
+		<ul>
+			<li>Taak 1:</li>
+			<ul>
+				<li>Machine 0</li>
+				<li>Tijdsduur 60</li>
+			</ul>
+			<li>Taak 2:</li>
+			<ul>
+				<li>Machine 1</li>
+				<li>Tijdsduur 15</li>
+			</ul>
+			<li>Taak 3:</li>
+			<ul>
+				<li>Machine 2</li>
+				<li>Tijdsduur 10</li>
+			</ul>
+		</ul>
+		<h3 id="es-earliest-start">ES - Earliest start</h3>
+		<p>Per taak wordt bijgehouden wanneer deze op zijn vroegst begonnen is.</p>
+		<p>De duration kan je berekenen door de de duration van de laatste taak bij zijn earliest start op te tellen.</p>
+		<p>Earliest start voor </p>
+		<p>
+			<strong>Job 1</strong>
+		</p>
+		<ul>
+			<li>Taak 1</li>
+			<ul>
+				<li>0</li>
+			</ul>
+			<li>Taak 2</li>
+			<ul>
+				<li>30</li>
+			</ul>
+			<li>Taak 3</li>
+			<ul>
+				<li>60</li>
+			</ul>
+		</ul>
+		<p>Duration 70</p>
+		<p>
+			<strong>Job 2</strong>
+		</p>
+		<ul>
+			<li>Taak 1</li>
+			<ul>
+				<li>0</li>
+			</ul>
+			<li>Taak 2</li>
+			<ul>
+				<li>60</li>
+			</ul>
+			<li>Taak 3</li>
+			<ul>
+				<li>75</li>
+			</ul>
+		</ul>
+		<p>Duration 85</p>
+		<h3 id="slack-berekenen">Slack berekenen</h3>
+		<p>job met de hoogste duration heeft 0 slack. De slack van de andere taken kan je berekeken door het verschil te berekenen tussen de job en de job met de hoogste duration.</p>
+		<p>Dus 
+			<strong>Job 1</strong> heeft 15 slack en 
+			<strong>Job 2</strong> heeft 0 slack.
+		</p>
+		<h3 id="plannen-van-taken">Plannen van taken</h3>
+		<p>De job met het minste slack heeft voorrang. Je begint dus met inplannen bij 
+			<strong>Job 2</strong>
+		</p>
+		<p>Je kan bij het programmeren per seconde kijken of je al een taak kan doen. Het kan ook 
+			<strong>slimmer</strong>:
+		</p>
+		<ul>
+			<li>Kijk naar de earliest start van je taken zodat je weet wanneer je weer aan de slag kan.</li>
+		</ul>
+		<h4 id="de-eerste-taak-is-klaar-en-nu">De eerste taak is klaar, en nu?</h4>
+		<p>Nu moeten alle (behalve van taken die je al gehad hebt) earliest start properties opnieuw berekend worden van de andere taken. Dus van 
+			<strong>Job 1</strong> wordt nu 
+			<strong>Taak 1</strong> een earliest start van 60 ipv 0, omdat we al een taak hiervoor uitgevoerd hebben. 
+		</p>
+		<p>De reden dat we niet door gaan naar 
+			<strong>taak 2</strong> van 
+			<strong>job 2</strong> is omdat na de earliest starts en slack te berekenen, 
+			<strong>Job 1</strong> heeft nu minder slack, en krijgt dus voorrang.
+		</p>
+		<p>We gaan dus verder met 
+			<strong>Taak 1</strong> van 
+			<strong>Job 1</strong>
+		</p>
+		<p>Nu kunnen we ook 
+			<strong>taak 2</strong> van 
+			<strong>job 2</strong> inplannen want deze heeft nog steeds een earliest start van 60, we plannen dus op tijdstip t60 twee taken in.
+		</p>
+		<h3 id="en-verder">En verder?</h3>
+		<p>Op enig moment kan het zijn dat je een hele job uitgevoerd hebt, deze kan je dan markeren zodat je je in de code alleen nog maar hoeft te focussen op andere jobs. Je kijkt dan wat is de kleinste earliest start op dit moment en dan ga je daar verder.</p>
+	</body>
+</html>
