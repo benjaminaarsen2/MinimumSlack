@@ -10,7 +10,7 @@
 #include <iostream>
 #include <algorithm>
 
-Job::Job() : slack(0){
+Job::Job(){
 	// TODO Auto-generated constructor stub
 
 }
@@ -37,6 +37,10 @@ unsigned short Job::calcEarliestStart(unsigned char idx) {
 unsigned short Job::getDuration() const{
 	const auto& lastTask = tasks.back();
 	return lastTask.getDuration() + lastTask.getEarliestStart();
+}
+
+std::vector<Task>& Job::getTasks() {
+	return this->tasks;
 }
 
 std::ostream& operator<< (std::ostream& os, const Job& rhs) {

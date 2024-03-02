@@ -19,7 +19,6 @@ public:
 
 	Job& addJob(const Job& job);
 	std::vector<Job>& getJobs();
-	std::string name;
 	unsigned char nJobs;
 	unsigned char nMachines;
 	friend std::ostream& operator<< (std::ostream& os, const JobShop& rhs);

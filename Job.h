@@ -21,7 +21,7 @@ public:
 	bool addTask(Task& task);
 	unsigned short getDuration() const;
 	unsigned short calcEarliestStart(unsigned char idx);
-
+	std::vector<Task>& getTasks();
 	friend std::ostream& operator<< (std::ostream& os, const Job& rhs);
 private:
 
