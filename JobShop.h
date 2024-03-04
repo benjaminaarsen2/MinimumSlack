@@ -8,13 +8,14 @@
 #ifndef JOBSHOP_H_
 #define JOBSHOP_H_
 
-#include <string>
 #include <vector>
+#include <map>
 #include "Job.h"
+#include "Machine.h"
 
 class JobShop {
 public:
-	JobShop(const unsigned char nJobs, const unsigned char nMachines);
+	JobShop();
 	virtual ~JobShop();
 
 	Job& addJob(const Job& job);
@@ -22,11 +23,11 @@ public:
 	void schedule();
 	friend std::ostream& operator<< (std::ostream& os, const JobShop& rhs);
 private:
+	std::map<unsigned char, Machine> machines;
 	void calculateSlacks();
 	Job& getLeastSlack();
+
 	std::vector<Job> jobs;
-	unsigned char nJobs;
-	unsigned char nMachines;
 };
 
 #endif /* JOBSHOP_H_ */

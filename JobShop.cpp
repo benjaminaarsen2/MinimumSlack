@@ -9,8 +9,7 @@
 #include <iostream>
 #include <algorithm>
 
-JobShop::JobShop(const unsigned char nJobs, const unsigned char nMachines) :
-		nJobs(nJobs), nMachines(nMachines) {
+JobShop::JobShop() {
 	// TODO Auto-generated constructor stub
 
 }
@@ -24,14 +23,13 @@ Job& JobShop::addJob(const Job &job) {
 	return this->jobs.back();
 }
 
-
 std::vector<Job>& JobShop::getJobs() {
 	return this->jobs;
 }
 
 std::ostream& operator<<(std::ostream &os, const JobShop &rhs) {
-	os << "Jobs: " << (int) rhs.nJobs << " Machines: " << (int) rhs.nMachines
-			<< std::endl;
+	os << "Jobs: " << (int) rhs.jobs.size() << " Machines: "
+			<< (int) rhs.machines.size() << std::endl;
 
 	for (const auto &job : rhs.jobs) {
 		os << job << std::endl;
@@ -40,27 +38,35 @@ std::ostream& operator<<(std::ostream &os, const JobShop &rhs) {
 }
 
 void JobShop::schedule() {
-	while (true) {
-		std::sort(jobs.begin(), jobs.end());
-		auto& ls = getLeastSlack();
-		auto& task = ls.getNextTask();
+//	while (true) {
+	std::sort(jobs.begin(), jobs.end());
+	auto &ls = getLeastSlack();
+	auto &task = ls.getNextTask();
 
+	// if there are no machines yet (the first task)
+	if (machines.size() == 0) {
+		machines.emplace(task.getMachine(), Machine(task));
 	}
+
+//	const auto machine = machines.
+
+//	}
 }
 
 void JobShop::calculateSlacks() {
-	const auto& maxDurationJob = *std::max_element(jobs.begin(),
-				jobs.end(), [](const Job &a, const Job &b) {
-					return a.getDuration() < b.getDuration();
-				});
-	for (auto& job : jobs) {
+	const auto &maxDurationJob = *std::max_element(jobs.begin(), jobs.end(),
+			[](const Job &a, const Job &b) {
+				return a.getDuration() < b.getDuration();
+			});
+	for (auto &job : jobs) {
 		job.setSlack(maxDurationJob.getDuration() - job.getDuration());
 	}
 }
 
 Job& JobShop::getLeastSlack() {
-	auto& ls = *std::min_element(jobs.begin(), jobs.end(), [](const Job& a, const Job &b) {
-		return a.getSlack() < b.getSlack();
-	});
+	auto &ls = *std::min_element(jobs.begin(), jobs.end(),
+			[](const Job &a, const Job &b) {
+				return a.getSlack() < b.getSlack();
+			});
 	return ls;
 }

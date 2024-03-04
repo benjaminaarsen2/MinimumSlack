@@ -22,6 +22,7 @@ public:
 	unsigned short getDuration() const;
 	std::vector<Task>& getTasks();
 	friend std::ostream& operator<< (std::ostream& os, const Job& rhs);
+	friend bool operator< (const Job& lhs, const Job& rhs);
 	void setSlack(unsigned short slack);
 	unsigned short getSlack() const;
 	void addToEarliestStarts(unsigned char time);

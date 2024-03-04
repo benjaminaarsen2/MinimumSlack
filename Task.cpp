@@ -7,7 +7,7 @@
 
 #include "Task.h"
 
-Task::Task(unsigned char machine, unsigned char time) : machine(machine), duration(time), earliestStart(0), started(false) {
+Task::Task(unsigned char machine, unsigned char time) : earliestStart(0), started(false), machine(machine), duration(time)  {
 	// TODO Auto-generated constructor stub
 }
 
@@ -36,6 +36,20 @@ bool Task::isStarted() {
 	return started;
 }
 
+Task& Task::operator =(const Task &rhs) {
+	if (this != &rhs) {
+		this->duration = rhs.duration;
+		this->earliestStart = rhs.earliestStart;
+		this->machine = rhs.machine;
+		this->started = rhs.started;
+	}
+	return *this;
+}
+
 void Task::start() {
 	started = true;
+}
+
+std::ostream& operator<< (std::ostream& os, const Task& rhs) {
+	return os << (int)rhs.machine << " " << (int)rhs.duration << " " << (int)rhs.earliestStart;
 }

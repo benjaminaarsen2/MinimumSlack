@@ -11,7 +11,6 @@
 #include <algorithm>
 
 Job::Job(unsigned char cid): id(cid){
-	calculateEarliestStarts();
 
 }
 
@@ -21,7 +20,7 @@ Job::~Job() {
 
 bool Job::addTask(Task& task) {
 	tasks.push_back(task);
-
+	calculateEarliestStarts();
 	return true;
 }
 
@@ -43,8 +42,12 @@ std::ostream& operator<< (std::ostream& os, const Job& rhs) {
 	for (const auto& task : rhs.tasks) {
 		os << (int)task.getMachine() << ": [" << (int)task.getDuration() << " " << (int)task.getEarliestStart() << "], ";
 	}
-	os << "]" << " Duration: " << (int)rhs.getDuration() << std::endl;
+	os << "]" << " Duration: " << (int)rhs.getDuration();
 	return os;
+}
+
+bool operator< (const Job& lhs, const Job& rhs) {
+	return lhs.slack < rhs.slack;
 }
 
 void Job::setSlack(unsigned short s) {
@@ -70,9 +73,7 @@ Task& Job::getNextTask() {
 		}
 	}
 	std::cout << "No new task available" << std::endl;
-	auto t = Task(0,0);
-	return t;
-
+	return tasks.at(0);
 }
 
 void Job::calculateEarliestStarts() {

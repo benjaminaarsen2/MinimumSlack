@@ -17,6 +17,7 @@ int main(int argc, char **argv) {
 	}
 	Parser parser(argv[1]);
 	JobShop js = parser.parse();
+	js.schedule();
 //	MinimumSlack ms(std::make_shared<JobShop>(js));
 //	ms.schedule();
 }

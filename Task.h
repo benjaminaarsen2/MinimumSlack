@@ -7,6 +7,7 @@
 
 #ifndef TASK_H_
 #define TASK_H_
+#include <iostream>
 
 class Task {
 public:
@@ -18,13 +19,15 @@ public:
 	unsigned char getEarliestStart() const;
 
 	unsigned char setEarliestStart(unsigned char es);
+	friend std::ostream& operator<< (std::ostream& os, const Task& rhs);
+	Task& operator= (const Task& rhs);
 	bool isStarted();
 	void start();
 private:
+	unsigned char earliestStart;
 	bool started;
 	unsigned char machine;
 	unsigned char duration;
-	unsigned char earliestStart;
 };
 
 #endif /* TASK_H_ */

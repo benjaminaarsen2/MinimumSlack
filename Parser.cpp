@@ -35,7 +35,7 @@ JobShop Parser::parse() {
 					"Config invalid, only two digits are allowed."));
 		}
 
-		JobShop js(tokens[0], tokens[1]);
+		JobShop js;
 		unsigned char jobId = 0;
 
 		while (getline(File, line)) {
@@ -54,14 +54,13 @@ JobShop Parser::parse() {
 
 	} else {
 		std::cout << "file not open" << std::endl;
-		return JobShop(0, 0);
+		return JobShop();
 	}
 
 }
 
 std::vector<unsigned char> Parser::parseDigitsInLine(const std::string &line) {
 	std::vector<unsigned char> tokens;
-	std::string tok;
 	std::size_t start, end;
 	start = end = 0;
 	const char ws[] = {' ', '\t'};
@@ -72,8 +71,8 @@ std::vector<unsigned char> Parser::parseDigitsInLine(const std::string &line) {
 		if (end == std::string::npos) {
 			end = line.length();
 		}
-
-		tokens.push_back(stoi(line.substr(start, end - start)));
+		unsigned int token = stoul((line.substr(start, end - start)));
+		tokens.push_back(static_cast<unsigned char>(token));
 	}
 	return tokens;
 }
