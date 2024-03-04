@@ -19,11 +19,14 @@ public:
 
 	Job& addJob(const Job& job);
 	std::vector<Job>& getJobs();
-	unsigned char nJobs;
-	unsigned char nMachines;
+	void schedule();
 	friend std::ostream& operator<< (std::ostream& os, const JobShop& rhs);
 private:
+	void calculateSlacks();
+	Job& getLeastSlack();
 	std::vector<Job> jobs;
+	unsigned char nJobs;
+	unsigned char nMachines;
 };
 
 #endif /* JOBSHOP_H_ */

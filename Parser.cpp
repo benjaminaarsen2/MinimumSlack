@@ -36,16 +36,18 @@ JobShop Parser::parse() {
 		}
 
 		JobShop js(tokens[0], tokens[1]);
+		unsigned char jobId = 0;
 
 		while (getline(File, line)) {
 			tokens = parseDigitsInLine(line);
-			Job j;
+			Job j(jobId);
 			for (auto i = tokens.begin(); i != tokens.end(); ++i) {
 				Task t(*i, *(i + 1));
 				j.addTask(t);
 				++i;
 			}
 			js.addJob(j);
+			++jobId;
 		}
 
 		return js;

@@ -18,8 +18,10 @@ public:
 	unsigned char getEarliestStart() const;
 
 	unsigned char setEarliestStart(unsigned char es);
-
+	bool isStarted();
+	void start();
 private:
+	bool started;
 	unsigned char machine;
 	unsigned char duration;
 	unsigned char earliestStart;

@@ -24,6 +24,7 @@ Job& JobShop::addJob(const Job &job) {
 	return this->jobs.back();
 }
 
+
 std::vector<Job>& JobShop::getJobs() {
 	return this->jobs;
 }
@@ -36,4 +37,30 @@ std::ostream& operator<<(std::ostream &os, const JobShop &rhs) {
 		os << job << std::endl;
 	}
 	return os;
+}
+
+void JobShop::schedule() {
+	while (true) {
+		std::sort(jobs.begin(), jobs.end());
+		auto& ls = getLeastSlack();
+		auto& task = ls.getNextTask();
+
+	}
+}
+
+void JobShop::calculateSlacks() {
+	const auto& maxDurationJob = *std::max_element(jobs.begin(),
+				jobs.end(), [](const Job &a, const Job &b) {
+					return a.getDuration() < b.getDuration();
+				});
+	for (auto& job : jobs) {
+		job.setSlack(maxDurationJob.getDuration() - job.getDuration());
+	}
+}
+
+Job& JobShop::getLeastSlack() {
+	auto& ls = *std::min_element(jobs.begin(), jobs.end(), [](const Job& a, const Job &b) {
+		return a.getSlack() < b.getSlack();
+	});
+	return ls;
 }

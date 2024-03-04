@@ -7,7 +7,7 @@
 
 #include "Task.h"
 
-Task::Task(unsigned char machine, unsigned char time) : machine(machine), duration(time), earliestStart(0) {
+Task::Task(unsigned char machine, unsigned char time) : machine(machine), duration(time), earliestStart(0), started(false) {
 	// TODO Auto-generated constructor stub
 }
 
@@ -30,4 +30,12 @@ unsigned char Task::setEarliestStart(unsigned char es) {
 
 unsigned char Task::getEarliestStart() const {
 	return this->earliestStart;
+}
+
+bool Task::isStarted() {
+	return started;
+}
+
+void Task::start() {
+	started = true;
 }

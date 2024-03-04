@@ -10,8 +10,8 @@
 #include <iostream>
 #include <algorithm>
 
-Job::Job(){
-	// TODO Auto-generated constructor stub
+Job::Job(unsigned char cid): id(cid){
+	calculateEarliestStarts();
 
 }
 
@@ -20,18 +20,9 @@ Job::~Job() {
 }
 
 bool Job::addTask(Task& task) {
-	task.setEarliestStart(calcEarliestStart(tasks.size()));
 	tasks.push_back(task);
 
 	return true;
-}
-
-unsigned short Job::calcEarliestStart(unsigned char idx) {
-	unsigned short res;
-	for (std::size_t i = 0; i < tasks.size(); ++i) {
-		res += tasks.at(i).getDuration();
-	}
-	return res;
 }
 
 unsigned short Job::getDuration() const{
@@ -39,9 +30,10 @@ unsigned short Job::getDuration() const{
 	return lastTask.getDuration() + lastTask.getEarliestStart();
 }
 
-std::vector<Task>& Job::getTasks() {
+std::vector<Task>& Job::getTasks(){
 	return this->tasks;
 }
+
 
 std::ostream& operator<< (std::ostream& os, const Job& rhs) {
 	os <<  "[";
@@ -54,3 +46,41 @@ std::ostream& operator<< (std::ostream& os, const Job& rhs) {
 	os << "]" << " Duration: " << (int)rhs.getDuration() << std::endl;
 	return os;
 }
+
+void Job::setSlack(unsigned short s) {
+	slack = s;
+}
+
+void Job::addToEarliestStarts(unsigned char time) {
+	for(auto& task : tasks) {
+		if (!task.isStarted()) {
+			task.setEarliestStart(task.getEarliestStart() + time);
+		}
+	}
+}
+
+unsigned short Job::getSlack() const{
+	return slack;
+}
+
+Task& Job::getNextTask() {
+	for(auto& task : tasks) {
+		if (!task.isStarted()) {
+			return task;
+		}
+	}
+	std::cout << "No new task available" << std::endl;
+	auto t = Task(0,0);
+	return t;
+
+}
+
+void Job::calculateEarliestStarts() {
+	unsigned char es = 0;
+	for(auto& task : tasks) {
+			task.setEarliestStart(es);
+			es += task.getDuration();
+		}
+}
+
+

@@ -15,17 +15,28 @@
 
 class Job {
 public:
-	Job();
+	Job(unsigned char id);
 	virtual ~Job();
 
 	bool addTask(Task& task);
 	unsigned short getDuration() const;
-	unsigned short calcEarliestStart(unsigned char idx);
 	std::vector<Task>& getTasks();
 	friend std::ostream& operator<< (std::ostream& os, const Job& rhs);
+	void setSlack(unsigned short slack);
+	unsigned short getSlack() const;
+	void addToEarliestStarts(unsigned char time);
+	Task& getNextTask();
 private:
-
 	std::vector<Task> tasks;
+	unsigned char id;
+	unsigned short slack;
+	bool isDone;
+	unsigned short endTime;
+	void calculateEarliestStarts();
+
+
+
+
 };
 
 #endif /* JOB_H_ */

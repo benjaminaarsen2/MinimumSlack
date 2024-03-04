@@ -8,7 +8,7 @@
 #include <memory>
 #include "Parser.h"
 #include "Jobshop.h"
-#include "MinimumSlack.h"
+//#include "MinimumSlack.h"
 
 int main(int argc, char **argv) {
 	if (!argv[1]) {
@@ -17,8 +17,8 @@ int main(int argc, char **argv) {
 	}
 	Parser parser(argv[1]);
 	JobShop js = parser.parse();
-	MinimumSlack ms(std::make_shared<JobShop>(js));
-	ms.schedule();
+//	MinimumSlack ms(std::make_shared<JobShop>(js));
+//	ms.schedule();
 }
 
 
