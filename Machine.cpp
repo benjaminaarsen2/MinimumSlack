@@ -7,39 +7,47 @@
 
 #include "Machine.h"
 
+#include <iostream>
+
 Machine::Machine(Task &task) :
-		task(task), active(false) {
+		task(std::make_shared<Task>(task)) {
+//	std::cout << "machine constructor" << std::endl;
 }
-Machine::Machine(const Machine &rhs) : task(rhs.task), active(rhs.active) {
+
+Machine::Machine(const Machine &rhs) :
+		task(rhs.task) {
 }
 
 Machine::~Machine() {
 	// TODO Auto-generated destructor stub
 }
 
-bool Machine::isActive() {
-	return active;
-}
-
-void Machine::setActive(bool active) {
-	this->active = active;
-}
-
 void Machine::setTask(const Task &task) {
-	this->task = task;
+	this->task = std::make_shared<Task>(task);
 }
 
-const Task& Machine::getTask() {
-	return this->task;
+const Task& Machine::getTask() const {
+	return *(this->task);
 }
 
+// determine if the machine is active at a certain time
+bool Machine::isActive(unsigned short time) const {
+	return getDoneTime() > time;
+}
 
-Machine& Machine::operator= (const Machine& rhs) {
+unsigned short Machine::getDoneTime() const {
+	return (*task).getEarliestStart() + (*task).getDuration();
+}
+
+Machine& Machine::operator=(const Machine &rhs) {
 	if (this != &rhs) {
-		this->active = rhs.active;
 		this->task = rhs.task;
 	}
 	return *this;
+}
+
+std::ostream& operator<<(std::ostream &os, const Machine &rhs) {
+	return os << rhs.getTask();
 }
 //unsigned char Machine::getId() const {
 //	return id;

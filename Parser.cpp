@@ -6,15 +6,20 @@
  */
 
 #include "Parser.h"
+
 #include <fstream>
 #include <iostream>
-#include <regex>
+#include <iterator>
+#include <stdexcept>
 
-Parser::Parser(std::string path) :
+#include "Job.h"
+#include "Task.h"
+
+Parser::Parser(const std::string &path) :
 		path(path) {
 }
 
-Parser::Parser(char *path) {
+Parser::Parser(const char *path) {
 	this->path = std::string(path);
 }
 
@@ -24,55 +29,54 @@ Parser::~Parser() {
 
 JobShop Parser::parse() {
 	std::ifstream File(this->path.c_str());
-
-	if (File.is_open()) {
-		std::string line;
-		getline(File, line);
-		std::vector<unsigned char> tokens = parseDigitsInLine(line);
-		std::cout << tokens.size() << std::endl;
-		if (tokens.size() != 2) {
-			throw(std::runtime_error(
-					"Config invalid, only two digits are allowed."));
-		}
-
-		JobShop js;
-		unsigned char jobId = 0;
-
-		while (getline(File, line)) {
-			tokens = parseDigitsInLine(line);
-			Job j(jobId);
-			for (auto i = tokens.begin(); i != tokens.end(); ++i) {
-				Task t(*i, *(i + 1));
-				j.addTask(t);
-				++i;
-			}
-			js.addJob(j);
-			++jobId;
-		}
-
-		return js;
-
-	} else {
-		std::cout << "file not open" << std::endl;
-		return JobShop();
+	// if file is not open exit the program
+	if (!File.is_open()) {
+		throw(std::runtime_error("Could not open the input file"));
 	}
+
+	// parse the first line, which should be the config.
+	std::string line;
+	getline(File, line);
+	std::vector<unsigned char> tokens = parseDigitsInLine(line);
+	if (tokens.size() != 2) {
+		File.close();
+		throw(std::runtime_error("Config invalid, only two digits are allowed."));
+	}
+
+	// initialize the jobshop
+	JobShop js(tokens[1]);
+	unsigned char jobId = 0;
+
+	// parse the rest of the file line by line
+	while (getline(File, line)) {
+		tokens = parseDigitsInLine(line);
+		Job j(jobId);
+		// iterate over the tokens in pairs
+		for (auto i = tokens.begin(); i != tokens.end(); i += 2) {
+			Task t(*i, *(i + 1));
+			j.addTask(t);
+		}
+		// add the newly made job
+		js.addJob(j);
+		++jobId;
+	}
+	// close the file
+	File.close();
+	return js;
 
 }
 
 std::vector<unsigned char> Parser::parseDigitsInLine(const std::string &line) {
 	std::vector<unsigned char> tokens;
-	std::size_t start, end;
-	start = end = 0;
-	const char ws[] = {' ', '\t'};
-	while ((start = line.find_first_not_of(ws, end)) != std::string::npos) {
-		end = line.find_first_of(ws, start);
-//		std::cout << "start: " << start << " end: " << end << std::endl;
+	/*
+	 * This has to be a short because otherwise the >> operator cycles over all the characters instead of the numbers
+	 */
+	unsigned short value;
+	// make a stream out of our input string
+	std::istringstream lineStream(line);
 
-		if (end == std::string::npos) {
-			end = line.length();
-		}
-		unsigned int token = stoul((line.substr(start, end - start)));
-		tokens.push_back(static_cast<unsigned char>(token));
+	while (lineStream >> value) {
+		tokens.push_back(static_cast<unsigned char>(value));
 	}
 	return tokens;
 }

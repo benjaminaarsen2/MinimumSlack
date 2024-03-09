@@ -7,24 +7,26 @@
 
 #ifndef TASK_H_
 #define TASK_H_
+
 #include <iostream>
 
 class Task {
 public:
 	Task(unsigned char machine, unsigned char time);
+	Task(const Task& rhs);
 	virtual ~Task();
-
 	unsigned char getMachine() const;
 	unsigned char getDuration() const;
-	unsigned char getEarliestStart() const;
+	unsigned short getEarliestStart() const;
 
-	unsigned char setEarliestStart(unsigned char es);
-	friend std::ostream& operator<< (std::ostream& os, const Task& rhs);
+	unsigned short setEarliestStart(unsigned short es);
+	friend std::ostream& operator<<(std::ostream &os, const Task &rhs);
+	bool operator==(const Task &rhs) const;
 	Task& operator= (const Task& rhs);
-	bool isStarted();
+	bool isStarted() const;
 	void start();
 private:
-	unsigned char earliestStart;
+	unsigned short earliestStart;
 	bool started;
 	unsigned char machine;
 	unsigned char duration;

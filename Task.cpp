@@ -7,7 +7,8 @@
 
 #include "Task.h"
 
-Task::Task(unsigned char machine, unsigned char time) : earliestStart(0), started(false), machine(machine), duration(time)  {
+Task::Task(unsigned char machine, unsigned char time) :
+		earliestStart(0), started(false), machine(machine), duration(time) {
 	// TODO Auto-generated constructor stub
 }
 
@@ -23,16 +24,16 @@ unsigned char Task::getDuration() const {
 	return this->duration;
 }
 
-unsigned char Task::setEarliestStart(unsigned char es) {
+unsigned short Task::setEarliestStart(unsigned short es) {
 	this->earliestStart = es;
 	return this->earliestStart;
 }
 
-unsigned char Task::getEarliestStart() const {
+unsigned short Task::getEarliestStart() const {
 	return this->earliestStart;
 }
 
-bool Task::isStarted() {
+bool Task::isStarted() const {
 	return started;
 }
 
@@ -46,10 +47,25 @@ Task& Task::operator =(const Task &rhs) {
 	return *this;
 }
 
+Task::Task(const Task &rhs) :
+		earliestStart(rhs.earliestStart), started(rhs.started), machine(
+				rhs.machine), duration(rhs.duration) {
+
+}
+
 void Task::start() {
 	started = true;
 }
 
-std::ostream& operator<< (std::ostream& os, const Task& rhs) {
-	return os << (int)rhs.machine << " " << (int)rhs.duration << " " << (int)rhs.earliestStart;
+std::ostream& operator<<(std::ostream &os, const Task &rhs) {
+	return os << "[Machine: " << (int) rhs.machine << " Duration: "
+			<< (int) rhs.duration << " ES: " << (int) rhs.earliestStart << "]";
+}
+
+bool Task::operator ==(const Task &rhs) const {
+	if (this == &rhs)
+		return true;
+	return this->duration == rhs.duration
+			&& this->earliestStart == rhs.earliestStart
+			&& this->machine == rhs.machine && this->started == rhs.started;
 }

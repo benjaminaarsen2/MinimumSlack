@@ -8,25 +8,30 @@
 #ifndef JOBSHOP_H_
 #define JOBSHOP_H_
 
-#include <vector>
+#include <iostream>
 #include <map>
+#include <vector>
+
 #include "Job.h"
 #include "Machine.h"
 
 class JobShop {
 public:
-	JobShop();
+	explicit JobShop(unsigned char nMachines);
 	virtual ~JobShop();
 
-	Job& addJob(const Job& job);
-	std::vector<Job>& getJobs();
+	Job& addJob(const Job &job);
+//	std::vector<Job>& getJobs();
 	void schedule();
-	friend std::ostream& operator<< (std::ostream& os, const JobShop& rhs);
+	friend std::ostream& operator<<(std::ostream &os, const JobShop &rhs);
 private:
+	unsigned char nMachines;
 	std::map<unsigned char, Machine> machines;
 	void calculateSlacks();
-	Job& getLeastSlack();
-
+	std::vector<Job>::iterator getNextJob();
+	bool allJobsDone();
+	bool machineAvailable(unsigned char machineNum, unsigned short time);
+	unsigned short getEarliestAvailablility();
 	std::vector<Job> jobs;
 };
 

@@ -9,17 +9,20 @@
 #define PARSER_H_
 
 #include <filesystem>
+#include <string>
 #include <vector>
+
 #include "JobShop.h"
 
 class Parser {
 public:
-	Parser(std::string path);
-	Parser(char* path);
+	explicit Parser(const std::string &path);
+	explicit Parser(const char *path);
 	virtual ~Parser();
 
 	JobShop parse();
-	static std::vector<unsigned char> parseDigitsInLine(const std::string &line);
+	static std::vector<unsigned char> parseDigitsInLine(
+			const std::string &line);
 private:
 	std::filesystem::path path;
 };

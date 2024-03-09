@@ -5,13 +5,15 @@
  *      Author: benja
  */
 
-#include <memory>
+#include <iostream>
+
+#include "JobShop.h"
 #include "Parser.h"
-#include "Jobshop.h"
+
 //#include "MinimumSlack.h"
 
 int main(int argc, char **argv) {
-	if (!argv[1]) {
+	if (argc < 2) {
 		std::cout << "No file input provided" << std::endl;
 		return 0;
 	}
@@ -21,6 +23,4 @@ int main(int argc, char **argv) {
 //	MinimumSlack ms(std::make_shared<JobShop>(js));
 //	ms.schedule();
 }
-
-
 
