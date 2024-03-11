@@ -26,7 +26,6 @@ public:
 	friend std::ostream& operator<<(std::ostream &os, const Machine &rhs);
 
 private:
-	// when i make this a reference everything breaks so i won't do that :)
 	std::shared_ptr<Task> task;
 
 };

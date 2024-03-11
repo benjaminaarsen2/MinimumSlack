@@ -16,6 +16,7 @@
 class Job {
 public:
 	explicit Job(unsigned char id);
+	Job(const Job& rhs);
 	virtual ~Job();
 
 	bool isDone() const;

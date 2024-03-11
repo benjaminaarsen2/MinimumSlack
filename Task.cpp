@@ -12,6 +12,12 @@ Task::Task(unsigned char machine, unsigned char time) :
 	// TODO Auto-generated constructor stub
 }
 
+Task::Task(const Task &rhs) :
+		earliestStart(rhs.earliestStart), started(rhs.started), machine(
+				rhs.machine), duration(rhs.duration) {
+
+}
+
 Task::~Task() {
 	// TODO Auto-generated destructor stub
 }
@@ -45,12 +51,6 @@ Task& Task::operator =(const Task &rhs) {
 		this->started = rhs.started;
 	}
 	return *this;
-}
-
-Task::Task(const Task &rhs) :
-		earliestStart(rhs.earliestStart), started(rhs.started), machine(
-				rhs.machine), duration(rhs.duration) {
-
 }
 
 void Task::start() {

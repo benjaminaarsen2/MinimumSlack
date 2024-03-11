@@ -14,6 +14,10 @@ Job::Job(unsigned char cid) :
 
 }
 
+Job::Job(const Job &rhs) : tasks(rhs.tasks), id(rhs.id), slack(rhs.slack), done(rhs.done), startTime(rhs.startTime){
+
+}
+
 Job::~Job() {
 	// TODO Auto-generated destructor stub
 }
@@ -90,6 +94,7 @@ void Job::setStartTime(unsigned short time) {
 unsigned short Job::getStartTime() const {
 	return this->startTime;
 }
+
 void Job::calculateEarliestStarts() {
 	unsigned short es = 0;
 	for (auto &task : tasks) {

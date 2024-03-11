@@ -49,6 +49,3 @@ Machine& Machine::operator=(const Machine &rhs) {
 std::ostream& operator<<(std::ostream &os, const Machine &rhs) {
 	return os << rhs.getTask();
 }
-//unsigned char Machine::getId() const {
-//	return id;
-//}
